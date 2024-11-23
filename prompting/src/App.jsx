@@ -1,95 +1,136 @@
-import React, { useState } from "react";
-import Selector from "./components/Selector";
-import PromptViewer from "./components/PromptViewer";
+import React, { useState } from 'react';
+import Selector from './components/Selector';
+import PromptViewer from './components/PromptViewer';
 
-const App = () => {
-  const [prompt, setPrompt] = useState("");
+function App() {
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [hairColor, setHairColor] = useState("");
+  const [hairStyle, setHairStyle] = useState("");
+  const [skinTone, setSkinTone] = useState("");
+  const [clothingType, setClothingType] = useState("");
+  const [accessories, setAccessories] = useState("");
+  const [posture, setPosture] = useState("");
+  const [expression, setExpression] = useState("");
+  const [background, setBackground] = useState("");
 
-  const handleGenderChange = (e) => {
-    const selectedGender = e.target.value;
-    setGender(selectedGender);
-    updatePrompt(selectedGender, age, hairColor);
-  };
+  // Opciones de cada selector (sin cambios)
+  const genderOptions = [
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" }
+  ];
+  const ageOptions = [
+    { value: "18-30", label: "18-30" },
+    { value: "30-50", label: "30-50" }
+  ];
+  const hairColorOptions = [
+    { value: "Black", label: "Black" },
+    { value: "Blonde", label: "Blonde" }
+  ];
+  const hairStyleOptions = [
+    { value: "Short", label: "Short" },
+    { value: "Long", label: "Long" }
+  ];
+  const skinToneOptions = [
+    { value: "Light", label: "Light" },
+    { value: "Dark", label: "Dark" }
+  ];
+  const clothingTypeOptions = [
+    { value: "Casual", label: "Casual" },
+    { value: "Formal", label: "Formal" }
+  ];
+  const accessoriesOptions = [
+    { value: "None", label: "None" },
+    { value: "Glasses", label: "Glasses" }
+  ];
+  const postureOptions = [
+    { value: "Standing", label: "Standing" },
+    { value: "Sitting", label: "Sitting" }
+  ];
+  const expressionOptions = [
+    { value: "Happy", label: "Happy" },
+    { value: "Serious", label: "Serious" }
+  ];
+  const backgroundOptions = [
+    { value: "City", label: "City" },
+    { value: "Nature", label: "Nature" }
+  ];
 
-  const handleAgeChange = (e) => {
-    const inputAge = e.target.value;
-    if (inputAge === "" || Number(inputAge) >= 18) {
-      setAge(inputAge);
-      updatePrompt(gender, inputAge, hairColor);
-    }
-  };
-
-  const handleHairColorChange = (e) => {
-    const selectedHairColor = e.target.value;
-    setHairColor(selectedHairColor);
-    updatePrompt(gender, age, selectedHairColor);
-  };
-
-  const updatePrompt = (selectedGender, selectedAge, selectedHairColor) => {
-    const basePrompt = "Epic realistic, hyper-detailed";
-    const genderPrompt = selectedGender
-      ? selectedGender === "male"
-        ? "1 man"
-        : "1 woman"
-      : "";
-    const agePrompt = selectedAge ? `age ${selectedAge}` : "";
-    const hairColorPrompt = selectedHairColor
-      ? `${selectedHairColor} hair`
-      : "";
-    setPrompt(
-      `${basePrompt}, ${genderPrompt}, ${agePrompt}, ${hairColorPrompt}`.trim()
-    );
+  // Función para generar el prompt
+  const generatePrompt = () => {
+    return `A ${gender} aged ${age}, with ${hairColor} ${hairStyle} hair, ${skinTone} skin tone, wearing ${clothingType} clothing, and ${accessories}. The person is ${posture} with a ${expression} expression, in a ${background} background.`;
   };
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
-      <h1>Prompting Tool</h1>
-      {/* Selector de género */}
+    <div>
+      <h1>Prompt Generator</h1>
+
+      {/* Usar Selector.jsx para cada categoría */}
       <Selector
-        label="Select Gender"
-        options={[
-          { label: "Man", value: "male" },
-          { label: "Woman", value: "female" },
-        ]}
+        label="Gender"
+        options={genderOptions}
         value={gender}
-        onChange={handleGenderChange}
+        onChange={(e) => setGender(e.target.value)}
       />
-      {/* Input de edad */}
-      <div style={{ marginBottom: "20px" }}>
-        <label htmlFor="age" style={{ marginRight: "10px" }}>
-          Enter Age (18+):
-        </label>
-        <input
-          type="number"
-          id="age"
-          value={age}
-          onChange={handleAgeChange}
-          min="18"
-          placeholder="18 or more"
-          style={{ padding: "5px", fontSize: "16px" }}
-        />
-      </div>
-      {/* Selector de color de cabello */}
       <Selector
-        label="Select Hair Color"
-        options={[
-          { label: "Black", value: "black" },
-          { label: "Brown", value: "brown" },
-          { label: "Blonde", value: "blonde" },
-          { label: "Red", value: "red" },
-          { label: "Gray", value: "gray" },
-          { label: "White", value: "white" },
-        ]}
-        value={hairColor}
-        onChange={handleHairColorChange}
+        label="Age"
+        options={ageOptions}
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
       />
-      {/* Visualizador de prompts */}
-      <PromptViewer prompt={prompt} />
+      <Selector
+        label="Hair Color"
+        options={hairColorOptions}
+        value={hairColor}
+        onChange={(e) => setHairColor(e.target.value)}
+      />
+      <Selector
+        label="Hair Style"
+        options={hairStyleOptions}
+        value={hairStyle}
+        onChange={(e) => setHairStyle(e.target.value)}
+      />
+      <Selector
+        label="Skin Tone"
+        options={skinToneOptions}
+        value={skinTone}
+        onChange={(e) => setSkinTone(e.target.value)}
+      />
+      <Selector
+        label="Clothing Type"
+        options={clothingTypeOptions}
+        value={clothingType}
+        onChange={(e) => setClothingType(e.target.value)}
+      />
+      <Selector
+        label="Accessories"
+        options={accessoriesOptions}
+        value={accessories}
+        onChange={(e) => setAccessories(e.target.value)}
+      />
+      <Selector
+        label="Posture"
+        options={postureOptions}
+        value={posture}
+        onChange={(e) => setPosture(e.target.value)}
+      />
+      <Selector
+        label="Expression"
+        options={expressionOptions}
+        value={expression}
+        onChange={(e) => setExpression(e.target.value)}
+      />
+      <Selector
+        label="Background"
+        options={backgroundOptions}
+        value={background}
+        onChange={(e) => setBackground(e.target.value)}
+      />
+
+      {/* Usamos PromptViewer para mostrar el prompt generado */}
+      <PromptViewer prompt={generatePrompt()} />
     </div>
   );
-};
+}
 
 export default App;
